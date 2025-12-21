@@ -1,0 +1,52 @@
+name: faang.yml
+run-name: ${{ github.actor }} Runs script every Saturday at 8:00 AM UTC
+on:
+  schedule:
+    - cron: '0 8 * * 6'   # 0 minutes, 8th hour, every day of month, every month, Saturday (6)
+  workflow_dispatch:      # also allowing for manual run, to check myself
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    # Required for pushing back to the repository using GITHUB_TOKEN
+    permissions:
+      contents: write
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch full history so git commands work properly
+          fetch-depth: 0
+
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+          
+          
+      - name: Install dependencies (optional)
+        run: |
+          pip install -r requirements.txt || true# Or specify e.g. '3.11'
+
+
+      - name: Run faang.py
+        run: |
+          python faang.py
+
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          git diff --cached --quiet || git commit -m "Auto-update from faang.py"
+
+      - name: Push changes
+        run: |
+          git push
+
+
