@@ -1,50 +1,59 @@
 #! /usr/bin/env python
+#https://realpython.com/python-shebang/
 
 
+# The above shebang should be put on the first line above any imports(must be done like that)
+# This put at the top is to say this script should be run in python, and maes the file exacutable
 
-# dates and times
+
+# followed by the imports
+
 import datetime as dt
 
-
-# data frame , pulled in with yfinance anyway 
 import pandas as pd
 
-# import yahoo finance data
 import yfinance as yf
 
-# used in problem 2.
-# numerical arrays
 import numpy as np
 
-#plotting
 import matplotlib.pyplot as plt
 
 
+# followed by the downloading of data needed
 Tickers = yf.Tickers('META AAPL GOOG AMZN NFLX')
 
 df = yf.download(['META', 'AAPL', 'GOOG', 'AMZN', 'NFLX'], period='5d', interval='1h')
 
+# filename and datetime setup
+
 df.to_csv("data/" + dt.datetime.now().strftime("%Y%m%d %H%M%S") + ".csv")
 
+
+
+# plotting the close data
 df[[('Close', 'META'), ('Close', 'AAPL'), ('Close', 'GOOG'), ('Close', 'AMZN'), ('Close', 'NFLX')]].plot()
 
 df['Close'].plot()
 
-# create new figure and axis
-# ax tell what the arguement is and subplot creates a blank plot
+
+
 fig, ax = plt.subplots()
 
-# plot all closing prices
-# insert the arguements
 df['Close'].plot(ax=ax)
 
-# current date and time (getting current time stamp)(as used above)
+# current date and time 
 now = dt.datetime.now()
 
-# file name (creating a new filename based on new timestamp)(as used above)(change place(plot) and change type to (png)
+#filename based on timestamp,change place and type
 filename = "plots/" + dt.datetime.now().strftime("%Y%m%d %H%M%S") + ".png"
 
 
-# save figure to plots folder
-# dpi is the pixels per inch , from lecture found that 300 is suitable amount for it to not look blocky
+#save to folder and make the pixels better quality
 fig.savefig(filename, dpi=300)
+
+
+# in terminal must use chmod +x faang.py
+# this gives the file permission to execute or check if it is ls -l 
+
+# references in problems notebook
+https://realpython.com/python-shebang/
