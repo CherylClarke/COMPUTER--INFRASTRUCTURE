@@ -56,4 +56,4 @@ fig.savefig(filename, dpi=300)
 # this gives the file permission to execute or check if it is ls -l 
 
 # references in problems notebook
-https://realpython.com/python-shebang/
+# ://realpython.com/python-shebang/
