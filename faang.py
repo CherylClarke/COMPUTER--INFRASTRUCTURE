@@ -53,7 +53,8 @@ fig.savefig(filename, dpi=300)
 
 
 # in terminal must use chmod +x faang.py
-# this gives the file permission to execute or check if it is ls -l 
+# this gives the file permission to execute or check if it is ls -l ,which gives everything in folder in long list with more info
+#can be seen there
 
 # references in problems notebook
 # ://realpython.com/python-shebang/
