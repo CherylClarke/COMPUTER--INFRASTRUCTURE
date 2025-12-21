@@ -5,17 +5,43 @@ on:
     - cron: '0 8 * * 6'   # 0 minutes, 8th hour, every day of month, every month, Saturday (6)
   workflow_dispatch:      # also allowing for manual run, to check myself
 jobs:
-  Explore-GitHub-Actions:
+  run-script:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
+      - name: checkout repository
         uses: actions/checkout@v6
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
+        with:
+          # Fetch full history so git commands work properly
+          fetch-depth: 0
+
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          
+          
+          
+      - name: Install dependencies (optional)
         run: |
-          ls -a ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+          pip install -r requirements.txt || true# Or specify e.g. '3.11'
+
+
+      - name: Run faang.py
+        run: |
+          python faang.py
+
+
+       - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          git diff --cached --quiet || git commit -m "Auto-update from faang.py"
+
+      - name: Push changes
+        run: |
+          git push
+
+
