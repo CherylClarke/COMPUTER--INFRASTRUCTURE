@@ -1,6 +1,9 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [workflow_dispatch]
+name: faang.yml
+run-name: ${{ github.actor }} Runs script every Saturday at 8:00 AM UTC
+on:
+  schedule:
+    - cron: '0 8 * * 6'   # 0 minutes, 8th hour, every day of month, every month, Saturday (6)
+  workflow_dispatch:      # also allowing for manual run, to check myself
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
